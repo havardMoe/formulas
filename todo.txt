@@ -1,0 +1,10 @@
+code for: 
+* more metrics 
+	(ndcg@)...
+	recall@
+	precision@
+	DCG?
+* Bigrams
+* SDM?
+
+Gå gjennom alle innleveringene
