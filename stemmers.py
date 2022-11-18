@@ -1,44 +1,71 @@
+from typing import List
 from nltk import PorterStemmer
 from krovetzstemmer import Stemmer as KrovetzStemmer
+from string import punctuation
 
-SUFFIXES = ['ing', 's']
+def remove_stopwords(text: str, stopwords: List[str]):
+    stopwords = set(stopwords)
+    words = [word for word in text.split() if word not in stopwords]
+    return ' '.join(words)
+
+def remove_punctuation(text: str, rep=' '):
+    for p in punctuation:
+        text = text.replace(p, rep)
+    return text
 
 # Suffix-s
 def suffix_stem(word, lower=True):
     if lower:
         word = word.lower()
-    for suff in SUFFIXES:
+    suffixes = ['s']
+    for suff in suffixes:
         if word.endswith(suff):
             return word[:-len(suff)]
 
     return word
 
+def stem_text(text, stemmer: str):
+    '''stemmer could be either of ['suffix', 'porter', 'krovetz']'''
 
-def stem_text(text, stemmer_func):
-    return ' '.join(stemmer_func(word) for word in text.split())
+    stemmer_function = {
+        'suffix':   suffix_stem,
+        'porter':   PorterStemmer().stem,
+        'korvetz':  KrovetzStemmer().stem,
+    }
 
-def main():
-    text = """
-    Two fathers and two sons went to fish. They saw a tall and strong tree that reached into the 
-    heaven for all the world to see they spend three hours there before they headed home
-    """
+    if not stemmer in stemmer_function:
+        raise ValueError(
+            f'stemmer argument mustbe either of {list(stemmer_function.keys())}')
+    
+    return ' '.join(stemmer_function[stemmer](word) for word in text.split())
 
+def analyze_text_with_all_stemmers(text):
     # Suffix-s
     print("Suffix-s")
-    print(stem_text(text, suffix_stem))
+    print(stem_text(text, 'suffix'))
     print("\n")
 
     # Porter
     print("Porter")
     ps = PorterStemmer()
-    print(stem_text(text, ps.stem))
+    print(stem_text(text, 'porter'))
     print("\n")
 
     # Krovetz
     print("Krovetz")
     ks = KrovetzStemmer()
-    print(stem_text(text, ks.stem))
+    print(stem_text(text, 'korvetz'))
     print("\n")
+
+def main():
+    text = """Two fathers and two sons went to fish. 
+    They saw a tall and strong tree that reached into the 
+    heaven for all the world to see they 
+    spend three hours there before they headed home"""
+
+    analyze_text_with_all_stemmers(text)
+
+
 
 if __name__ == '__main__':
     main()
