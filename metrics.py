@@ -2,6 +2,7 @@ from typing import Iterable, List, Union
 from pprint import pprint
 from itertools import product
 import numpy as np
+from sklearn.metrics import confusion_matrix as cm
 
 def jaccard_similarity_termbased(d1: Iterable[str], d2: Iterable[str]):
     '''
@@ -51,12 +52,15 @@ def cosine_similarity(v1: List[int], v2: List[int]):
     return dot_product / np.sqrt(denom) if denom > 0 else 0
 
 def confusion_matrix(pred: List[int], actual: List[int], 
-                     max_class: Union[int,None] = None) -> List[List[int]]:
+                     max_class: Union[int,None] = None,
+                     TP_in_topleft = False) -> List[List[int]]:
     '''
     Args:
         pred and actual are lists of the predicted class (as integers starting from 0)
         max_class: is the highest number class to include in the confusion matrix
             defaults to the max_value of the 'actual' and 'pred' lists
+        TP_in_topleft: for 2 class classification, if you want class 1 (positive) 
+            to be in top left instead of class 0 (negative)
     '''
     if min([*pred, *actual]) != 0:
         raise ValueError('classes should start with label int(0)')
@@ -66,7 +70,13 @@ def confusion_matrix(pred: List[int], actual: List[int],
 
     for p, a in zip(pred, actual):
         cm[a][p] += 1
-    
+
+    if TP_in_topleft:
+        return np.array(
+            [[cm[1][1], cm[1][0]],
+            [cm[0][1], cm[0][0]]]    
+        )
+
     return cm
 
 def _get_cm_stats(confusion_matrix: List[List[int]]):
@@ -76,7 +86,6 @@ def _get_cm_stats(confusion_matrix: List[List[int]]):
     
     Returns: TP, TN, FP, FN
     '''
-
     TP = confusion_matrix[1][1] 
     TN = confusion_matrix[0][0] 
     FP = confusion_matrix[0][1] 
@@ -199,6 +208,8 @@ def get_metrics(confusion_matrix: List[List[int]], print_metrics=True):
     }
 
     if print_metrics:
+        print('\n')
+        print('\n')
         print('-' * 69)
 
         print('Input Confusion Matrix:')
@@ -308,13 +319,11 @@ def micro_average_metrics(confusion_matrix: List[List[int]]):
 
 
 def main():
-    pred =   [1, 1, 1, 1, 0, 0, 1, 0, 0, 1]
-    actual = [0, 1, 1, 0, 0, 0, 1, 1, 0, 0]
-    cm = confusion_matrix(pred, actual)
-    print(cm)
-    metrics = get_metrics(cm, print_metrics=True)
+    actual =    [0, 1, 0, 0, 0, 1, 1, 1, 0, 1]
+    pred =      [1, 1, 1, 1, 0, 1, 1, 0, 0, 0]
 
-    # print(_get_cm_stats(cm))
+    print(confusion_matrix(pred, actual, TP_in_topleft=True))
+
 
 
 if __name__ == '__main__':

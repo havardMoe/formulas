@@ -16,7 +16,6 @@ def print_pretty_index(index: Dict[str, List]):
     for line in pretty_index:
         print(line)
 
-        
 
 def main():
     docs = [
@@ -32,9 +31,11 @@ def main():
     pipeline = [
         remove_punctuation,
         str.lower,
-        lambda t: remove_stopwords(t, stopwords),
-        lambda t: stem_text(t, 'suffix'),
-        str.split,
+        lambda text: remove_stopwords(text, stopwords),
+        lambda text: stem_text(text, 'suffix'),
+        # function to split text into words, could use some more 
+        # advanced function in case of HTML markup or similar
+        str.split,  
     ]
 
     tokenized_docs = []
@@ -51,15 +52,17 @@ def main():
         for i, tokens in enumerate(tokenized_docs):
             n_token_in_doc = Counter(tokens)[token]
             if n_token_in_doc > 0:
+
                 # DOC ID STARTS AT 1!
                 doc_id = i + 1
+
                 # TODO: ADD THE TYPE OF PAYLOAD YOU WANT HERE!!!
                 payload = n_token_in_doc
+
                 posting = (doc_id, payload)
                 index[token].append(posting)  # document (index + 1) is added to index
             
     print_pretty_index(index)
-
 
 
 
