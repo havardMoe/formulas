@@ -8,10 +8,8 @@ def jaccard_similarity_termbased(d1: Iterable[str], d2: Iterable[str]):
     Args:
         2 iterables with words, e.g. ['my', 'doc'] and ['second', 'doc']
     '''
-    d1 = set(d1.split())
-    d2 = set(d2.split())
-    intersection = d1.intersection(d2)
-    union = d1.union(d2)
+    intersection = set(d1).intersection(set(d2))
+    union = set(d1).union(set(d2))
     return len(intersection) / len(union)
 
 def jaccard_similarity_vectorbased(v1: List[int], v2: List[int]):
@@ -67,7 +65,7 @@ def confusion_matrix(pred: List[int], actual: List[int],
     cm = np.zeros((max_class+1, max_class+1))
 
     for p, a in zip(pred, actual):
-        cm[p][a] += 1
+        cm[a][p] += 1
     
     return cm
 
@@ -246,8 +244,8 @@ def _class_confusion_matrix(confusion_matrix: List[List[int]],
     FN = sum(confusion_matrix[target_class][i] 
              for i in range(num_classes) if i != target_class) 
 
-    class_cm = [[TP, FN],
-                [FP, TN]]
+    class_cm = [[TP, FP],
+                [FN, TN]]
 
     return class_cm
     
@@ -310,20 +308,13 @@ def micro_average_metrics(confusion_matrix: List[List[int]]):
 
 
 def main():
-    pred =   [1, 1, 0, 1, 1, 1, 0, 0, 1, 1]
-    actual = [0, 1, 0, 1, 0, 1, 0, 1, 0, 0]
+    pred =   [1, 1, 1, 1, 0, 0, 1, 0, 0, 1]
+    actual = [0, 1, 1, 0, 0, 0, 1, 1, 0, 0]
     cm = confusion_matrix(pred, actual)
+    print(cm)
     metrics = get_metrics(cm, print_metrics=True)
 
-    cm_nxn = [[24, 0, 2, 0],
-              [0, 10, 1, 1],
-              [1, 0, 9, 0 ],
-              [2, 0, 1, 30]]
-
-
-    print(multiclass_accuracy(cm_nxn))
-    print(macro_average_metrics(cm_nxn))
-    print(micro_average_metrics(cm_nxn))
+    # print(_get_cm_stats(cm))
 
 
 if __name__ == '__main__':
