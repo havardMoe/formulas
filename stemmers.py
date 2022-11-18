@@ -1,17 +1,7 @@
+import re
 from typing import List
 from nltk import PorterStemmer
 from krovetzstemmer import Stemmer as KrovetzStemmer
-from string import punctuation
-
-def remove_stopwords(text: str, stopwords: List[str]):
-    stopwords = set(stopwords)
-    words = [word for word in text.split() if word not in stopwords]
-    return ' '.join(words)
-
-def remove_punctuation(text: str, rep=' '):
-    for p in punctuation:
-        text = text.replace(p, rep)
-    return text
 
 # Suffix-s
 def suffix_stem(word, lower=True):
