@@ -1,6 +1,5 @@
-
-from ast import List
-from typing import Iterable
+import math
+from typing import Iterable, List
 import numpy as np
 
 def jaccard_similarity_termbased(d1: Iterable[str], d2: Iterable[str]):
@@ -50,8 +49,37 @@ def cosine_similarity(v1: List[int], v2: List[int]):
 
     return dot_product / np.sqrt(denom) if denom > 0 else 0
 
+def get_tf_vector(doc_term_vector: List[int]) -> List[float]:    
+    """Computes the normalized term frequency vector from a raw term-frequency vector."""
+    sum_freq = sum(doc_term_vector)
+    if sum_freq == 0:  # This would mean that the document has no content.
+        return None    
+    tf_vector = [freq / sum_freq for freq in doc_term_vector]
+    return tf_vector
+
+def get_term_idf(doc_term_matrix: List[List[int]], term_index: int) -> float:
+    """Computes the IDF value of a term, given by its index, based on a document-term matrix."""
+    N = len(doc_term_matrix)
+    n_t = sum([1 if doc_freqs[term_index] > 0 else 0 for doc_freqs in doc_term_matrix])
+    return math.log10(N / n_t)
+
+def get_tfidf_vector(doc_term_matrix: List[List[int]], doc_index: int) -> List[float]:
+    """Computes the TFIDF vector from a raw term-frequency vector."""
+    tf_vector = get_tf_vector(doc_term_matrix[doc_index])
+    tfidf_vector = []
+    for term_index, tf in enumerate(tf_vector):
+        idf = get_term_idf(doc_term_matrix, term_index)
+        tfidf_vector.append(tf * idf)
+    return tfidf_vector
+
 def main():
-    pass
+    d1 = [0, 5, 6 ,0, 1]
+    d2 = [1, 6, 3 ,3, 5]
+    d3 = [7, 0, 3 ,8, 0]
+    d4 = [4, 4, 9 ,0, 2]
+
+    sim1 = cosine_similarity(d2, d4)
+    print(sim1)
 
 if __name__ == '__main__':
     main()
