@@ -61,7 +61,7 @@ def get_term_idf(doc_term_matrix: List[List[int]], term_index: int) -> float:
     """Computes the IDF value of a term, given by its index, based on a document-term matrix."""
     N = len(doc_term_matrix)
     n_t = sum([1 if doc_freqs[term_index] > 0 else 0 for doc_freqs in doc_term_matrix])
-    return math.log10(N / n_t)
+    return math.log2((N + 1) / n_t)
 
 def get_tfidf_vector(doc_term_matrix: List[List[int]], doc_index: int) -> List[float]:
     """Computes the TFIDF vector from a raw term-frequency vector."""
@@ -78,8 +78,22 @@ def main():
     d3 = [7, 0, 3 ,8, 0]
     d4 = [4, 4, 9 ,0, 2]
 
+    docs = [d1, d2, d3, d4]
+
     sim1 = cosine_similarity(d2, d4)
     print(sim1)
+
+    tfidfvec1 = get_tfidf_vector(docs, 1)
+    print(tfidfvec1)
+
+    tfidfvec2 = get_tfidf_vector(docs, 3)
+    print(tfidfvec2)
+
+    sim = cosine_similarity(tfidfvec1, tfidfvec2)
+    print(sim)
+
+
+
 
 if __name__ == '__main__':
     main()
