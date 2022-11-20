@@ -272,15 +272,15 @@ def micro_average_metrics(confusion_matrix: List[List[int]]):
 
 
 def main():
-    actual =    [0, 0, 1, 0, 1, 1, 0, 1]
-    pred1 =     [1, 0, 1, 1, 0, 1, 1, 1]
+    actual =    [0, 1, 1, 0, 0, 0, 1, 1, 0, 0]
+    pred1 =     [1, 1, 1, 1, 0, 0, 1, 0, 0, 1]
     pred2 =     [0, 1, 1, 0, 1, 1, 0, 0]
 
     cm1 = confusion_matrix(pred1, actual, TP_in_topleft=False)
-    cm2 = confusion_matrix(pred2, actual, TP_in_topleft=False)
+    # cm2 = confusion_matrix(pred2, actual, TP_in_topleft=False)
 
     get_metrics(cm1)
-    get_metrics(cm2)
+    # get_metrics(cm2)
 
 
 
