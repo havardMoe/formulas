@@ -223,6 +223,7 @@ def macro_average_metrics(confusion_matrix: List[List[int]]):
     metrics = ['precision', 'recall', 'f1']
     class_metrics = []
     num_classes = len(confusion_matrix)
+    
     for c in range(num_classes):
         class_cm = _class_confusion_matrix(confusion_matrix, target_class=c)
         class_metrics.append(get_metrics(class_cm, print_metrics=False))

@@ -73,25 +73,36 @@ def get_tfidf_vector(doc_term_matrix: List[List[int]], doc_index: int) -> List[f
     return tfidf_vector
 
 def main():
-    # 2020 exam
-    d1 = [0, 5, 6 ,0, 1]
-    d2 = [1, 6, 3 ,3, 5]
-    d3 = [7, 0, 3 ,8, 0]
-    d4 = [4, 4, 9 ,0, 2]
+    # # 2020 exam
+    # d1 = [0, 5, 6 ,0, 1]
+    # d2 = [1, 6, 3 ,3, 5]
+    # d3 = [7, 0, 3 ,8, 0]
+    # d4 = [4, 4, 9 ,0, 2]
 
-    docs = [d1, d2, d3, d4]
+    # docs = [d1, d2, d3, d4]
 
-    sim1 = cosine_similarity(d2, d4)
-    print(sim1)
+    # sim1 = cosine_similarity(d2, d4)
+    # print(sim1)
 
-    tfidfvec1 = get_tfidf_vector(docs, 1)
-    print(tfidfvec1)
+    # tfidfvec1 = get_tfidf_vector(docs, 1)
+    # print(tfidfvec1)
 
-    tfidfvec2 = get_tfidf_vector(docs, 3)
-    print(tfidfvec2)
+    # tfidfvec2 = get_tfidf_vector(docs, 3)
+    # print(tfidfvec2)
 
-    sim = cosine_similarity(tfidfvec1, tfidfvec2)
-    print(sim)
+    # sim = cosine_similarity(tfidfvec1, tfidfvec2)
+    # print(sim)
+
+    # 2021 exam
+    d1 = 'this is the first text'
+    d2 = 'this is the second text'
+    print(jaccard_similarity_termbased(d1.split(), d2.split()))
+
+    d1 = 'this is another first text'
+    d2 = 'this is another strage second text'
+    print(jaccard_similarity_termbased(d1.split(), d2.split()))
+
+
 
 
 
