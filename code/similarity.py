@@ -73,6 +73,7 @@ def get_tfidf_vector(doc_term_matrix: List[List[int]], doc_index: int) -> List[f
     return tfidf_vector
 
 def main():
+    # 2020 exam
     d1 = [0, 5, 6 ,0, 1]
     d2 = [1, 6, 3 ,3, 5]
     d3 = [7, 0, 3 ,8, 0]
