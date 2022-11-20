@@ -2,7 +2,7 @@
 from typing import Any, Dict, List, Set, Tuple
 from pprint import pprint
 
-WEB_GRAPH_1 = [("A", "F"), ("B", "A"), ("B", "E"), ("C", "B"),("D","D"),("E","E"),("F","E"),("F","B")]
+WEB_GRAPH_1 = [('a', 'b'), ('b', 'c'), ('c', 'e'), ('e', 'd'), ('d', 'b'), ('e', 'f')]
 
 def get_all_nodes(web_graph: List[Tuple[Any, Any]]) -> Set[Any]:
 
@@ -47,4 +47,4 @@ def pagerank(web_graph: List[Tuple[Any, Any]], q: float = 0.2, iterations: int =
     return pr
 
 
-pprint(pagerank(WEB_GRAPH_1,q=0.2,iterations=2))
+pprint(pagerank(WEB_GRAPH_1,q=0.4,iterations=2))
