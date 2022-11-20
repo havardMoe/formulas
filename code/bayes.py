@@ -221,7 +221,7 @@ def ex2022():
 # Note: ex2021 is just here as an example
 # TODO: run ex2022 function inside main
 def main():
-    ex2021()
+    ex2020()
 
     
 if __name__ == '__main__':
