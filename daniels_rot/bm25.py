@@ -18,20 +18,39 @@ class BM25:
 
 
 ##### Examen2020 
-doc1 = BM25(collection_length=1000,avg_doc_length=50,doc_length=25,k1=1.2,b=0.75,base = 10)
-doc2 = BM25(collection_length=1000,avg_doc_length=50,doc_length=20,k1=1.2,b=0.75,base=10)
+# doc1 = BM25(collection_length=1000,avg_doc_length=50,doc_length=25,k1=1.2,b=0.75,base = 10)
+# doc2 = BM25(collection_length=1000,avg_doc_length=50,doc_length=20,k1=1.2,b=0.75,base=10)
 
-# Oppgave a)
+# # Oppgave a)
+# term2_doc_1 = doc1.scorer(term_freq=0,collection_freq=50)
+# print(term2_doc_1)
+
+# term2_doc_2 =doc2.scorer(term_freq=3,collection_freq=50)
+# print(term2_doc_2)
+
+# ##Oppgave b)
+# term_5_doc_1 = doc1.scorer(term_freq=10,collection_freq=100)
+# term_5_doc_2 = doc2.scorer(term_freq=1,collection_freq=100)
+
+# print(f'Doc1: {term2_doc_1+term2_doc_1+term_5_doc_1}')
+# print(f'Doc2: {term2_doc_2+term2_doc_2+term_5_doc_2}')
+
+
+# ##### Examen2021
+doc1 = BM25(collection_length=1000,avg_doc_length=50,doc_length=21,k1=1.25,b=0.8,base = 10)
+doc2 = BM25(collection_length=1000,avg_doc_length=50,doc_length=20,k1=1.25,b=0.8, base=10)
+
+# a)
 term2_doc_1 = doc1.scorer(term_freq=0,collection_freq=50)
 print(term2_doc_1)
 
-term2_doc_2 =doc2.scorer(term_freq=3,collection_freq=50)
+term2_doc_2 = doc2.scorer(term_freq=3,collection_freq=50)
 print(term2_doc_2)
 
-##Oppgave b)
+# b)
+term5_doc_1 = doc1.scorer(term_freq=10,collection_freq=100)
+term5_doc_2 = doc2.scorer(term_freq=1, collection_freq=100)
 
-term_5_doc_1 = doc1.scorer(term_freq=10,collection_freq=100)
-term_5_doc_2 = doc2.scorer(term_freq=1,collection_freq=100)
+print(2 * term2_doc_1 + term5_doc_1)
+print(2 * term2_doc_2 + term5_doc_2)
 
-print(f'Doc1: {term2_doc_1+term2_doc_1+term_5_doc_1}')
-print(f'Doc2: {term2_doc_2+term2_doc_2+term_5_doc_2}')

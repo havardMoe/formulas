@@ -1,4 +1,4 @@
-from typing import Iterable, List, Union
+from typing import Callable, Dict, Iterable, List, Set, Union
 from pprint import pprint
 from itertools import product
 import numpy as np
@@ -223,7 +223,7 @@ def macro_average_metrics(confusion_matrix: List[List[int]]):
     metrics = ['precision', 'recall', 'f1']
     class_metrics = []
     num_classes = len(confusion_matrix)
-    
+
     for c in range(num_classes):
         class_cm = _class_confusion_matrix(confusion_matrix, target_class=c)
         class_metrics.append(get_metrics(class_cm, print_metrics=False))
@@ -236,8 +236,6 @@ def macro_average_metrics(confusion_matrix: List[List[int]]):
     
     return macro_average_metrics
         
-
-
 
 def micro_average_metrics(confusion_matrix: List[List[int]]):
     '''
@@ -271,18 +269,57 @@ def micro_average_metrics(confusion_matrix: List[List[int]]):
 
     return micro_average_metrics
 
+def precision_at_k(retrieved, k):
+    rel_docs = 0
+
+    for i in range(k):
+        if retrieved[i] > 0:
+            rel_docs += 1
+        
+    return rel_docs / k
+
+def recall_at_k(retrieved, total_n_rel):
+    recalls = []
+
+    rel_docs = 0
+
+    for i in range(len(retrieved)):
+        if retrieved[i] > 0:
+            rel_docs += 1
+        recalls.append(np.round(rel_docs / total_n_rel, 2))
+
+    return recalls
+
+def average_precision(retrieved, total_n_rel):
+    precisions = []
+    for i, d in enumerate(retrieved):
+        if d > 0:  # document is relevant
+            precisions.append(precision_at_k(retrieved, i+1))
+    
+    AP = sum(precisions) / total_n_rel
+    return AP
 
 def main():
-    actual =    [0, 1, 1, 0, 0, 0, 1, 1, 0, 0]
-    pred1 =     [1, 1, 1, 1, 0, 0, 1, 0, 0, 1]
-    pred2 =     [0, 1, 1, 0, 1, 1, 0, 0]
+    # actual =    [0, 1, 1, 0, 0, 0, 1, 1, 0, 0]
+    # pred1 =     [1, 1, 1, 1, 0, 0, 1, 0, 0, 1]
+    # pred2 =     [0, 1, 1, 0, 1, 1, 0, 0]
 
-    cm1 = confusion_matrix(pred1, actual, TP_in_topleft=False)
-    # cm2 = confusion_matrix(pred2, actual, TP_in_topleft=False)
+    # cm1 = confusion_matrix(pred1, actual, TP_in_topleft=False)
+    # # cm2 = confusion_matrix(pred2, actual, TP_in_topleft=False)
 
-    get_metrics(cm1)
-    # get_metrics(cm2)
+    # get_metrics(cm1)
+    # # get_metrics(cm2)
 
+    # k = 10
+    k = 10 - 1
+    retrieved = [1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0]
+    print(precision_at_k(retrieved, k=10))
+
+    # total recall = (recall at latest index)
+    print(recall_at_k(retrieved, total_n_rel=6)[-1])
+
+    # average precision
+    print(average_precision(retrieved, total_n_rel=6))
 
 
 if __name__ == '__main__':
