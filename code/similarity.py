@@ -1,7 +1,7 @@
 
 from ast import List
 from typing import Iterable
-
+import numpy as np
 
 def jaccard_similarity_termbased(d1: Iterable[str], d2: Iterable[str]):
     '''
@@ -49,3 +49,9 @@ def cosine_similarity(v1: List[int], v2: List[int]):
     denom = norm1 * norm2
 
     return dot_product / np.sqrt(denom) if denom > 0 else 0
+
+def main():
+    pass
+
+if __name__ == '__main__':
+    main()
