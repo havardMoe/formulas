@@ -47,4 +47,4 @@ def pagerank(web_graph: List[Tuple[Any, Any]], q: float = 0.2, iterations: int =
     return pr
 
 
-pprint(pagerank(WEB_GRAPH_1,q=0.2,iterations=1))
+pprint(pagerank(WEB_GRAPH_1,q=0.2,iterations=2))

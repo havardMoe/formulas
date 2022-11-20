@@ -514,6 +514,7 @@ if __name__ == '__main__':
 
     query = ['t4','t3']
 
+
     collection = ElasticsearchCollection("toy_index_1")
     collection.index(DOCS, INDEX_SETTINGS)
     documents = [collection.get_document(doc_id) for doc_id in DOCS.keys()]

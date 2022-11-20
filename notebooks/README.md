@@ -1,1 +1,0 @@
-Folder containing previous exercises and examples from course
